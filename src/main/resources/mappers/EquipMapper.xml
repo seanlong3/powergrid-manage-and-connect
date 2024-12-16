@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.testpowmanage.mapper.EquipMapper">
+    <insert id="insertEquipData" parameterType="java.util.Map">
+        insert into ${tableName}
+            <foreach collection="dataMap" index="key" item="value" open="(" separator="," close=")">
+                "${key}"
+            </foreach>
+        values
+            <foreach collection="dataMap" index="key" item="value" open="(" separator="," close=")">
+                <if test="value instanceof String">
+                    '${value}'
+                </if>
+                <if test="value != null and !(value instanceof String)">
+                    ${value}
+                </if>
+                <if test="value == null">
+                    null
+                </if>
+
+            </foreach>
+    </insert>
+
+
+
+
+
+</mapper>

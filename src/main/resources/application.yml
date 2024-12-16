@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        opengauss:
+          url: jdbc:postgresql://xxxx:5432/powergriddb
+          username: ${OPENGAUSS_USERNAME:postgres}
+          password: ${OPENGAUSS_PASSWORD:123456}
+          driver-class-name: org.postgresql.Driver
+        tdengine:
+          url: jdbc:TAOS-RS://xxxx:6041/power
+          username: ${TDENGINE_USERNAME:root}
+          password: ${TDENGINE_PASSWORD:taosdata}
+          driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
+      primary: opengauss
+      strict: false
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mappers/*.xml
+
+
+jwt:
+  secret: ${JWT_SECRET:fVpabZFHkzbCjZcHWEwD8zRwrUBmpHxX9nqstfbz2VTPbjsxgSSv5D5gRGpD}
+  expiration-milliseconds: 604800000
+  authorization-header: Authorization
+
+minio:
+  url: http://xxxx:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucket: powermodel
+
+
+server:
+  port: 8080
+
+

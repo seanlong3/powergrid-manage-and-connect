@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.testpowmanage.mapper.EquipRepairMapper">
+    <select id="selectRepairWithAllType" resultType="com.example.testpowmanage.common.vo.EquipRepairVO">
+        select
+            er.repair_id,
+            er.repair_time,
+            er.manager,
+            er.status,
+            er.type,
+            rfm.equip_id,
+            rfm.equip_name,
+            rfm.has_renewal_part,
+            rfm.is_working,
+            rfm.model_id,
+            rri.area_id,
+            rri.route_record
+        from public.equip_repair as er
+        left join public.repair_facility_maintenance as rfm on rfm.repair_id = er.repair_id
+        left join public.repair_routine_inspection as rri on rri.repair_id = er.repair_id
+    </select>
+
+
+</mapper>

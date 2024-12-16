@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.testpowmanage.mapper.AcquisitionDataMapper">
+
+    <update id="createAcquisitionStable" parameterType="java.util.Map">
+        create stable power.${stableName}(
+        _ts timestamp,
+        <foreach collection="params" index="key" item="value" separator=",">
+            `${key}` ${value}
+        </foreach>
+        ) tags (
+        equip_id varchar(36),
+        acquisition_equip_id varchar(60)
+        )
+    </update>
+
+    <delete id="deleteAcquisitionEquipChildtable">
+        drop table if exists power.${childTableName}
+    </delete>
+
+    <select id="selectStableDataColumnByStableName" resultType="com.example.testpowmanage.entity.ColumnInfo">
+        select col_name as column_name, col_type as data_type
+        from information_schema.ins_columns
+        where db_name="power" and table_name=concat(#{stableName}, "_default")
+    </select>
+
+    <select id="selectAcquisitionDataByChildtable" resultType="java.util.Map">
+        select *
+        from power.${tableName}
+        where _ts >= #{startTime} and _ts &lt;= #{endTime}
+        limit 1000
+    </select>
+
+
+
+    <update id="createAcquisitionEquipChildtable">
+        create table power.${childTableName}
+        using ${stableName} (equip_id,acquisition_equip_id)
+        tags (#{equipId},#{acquisitionEquipId})
+    </update>
+
+    <delete id="deleteAcquisitionStable">
+        drop stable if exists power.${stableName}
+    </delete>
+
+</mapper>

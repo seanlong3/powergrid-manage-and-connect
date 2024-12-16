@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.testpowmanage.mapper.EquipTypeMapper">
+    <update id="createEquipTable" parameterType="java.util.Map">
+        create table public.${tableName} (
+            equip_id varchar(36) not null ,
+            type_id bigint not null ,
+            equip_name varchar(70),
+            model_id varchar not null ,
+            area_id bigint not null ,
+            <foreach collection="params" index="key" item="value" separator="," close=","> <!-- close可能应该为""可以避免最后是， -->
+                "${key}" ${value}
+            </foreach>
+            primary key(equip_id)
+        );
+    </update>
+
+    <delete id="deleteEquipTable">
+        drop table public.${tableName}
+    </delete>
+</mapper>

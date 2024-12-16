@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.testpowmanage.mapper.WarningMapper">
+
+    <select id="selectAllWarningWithEquip" resultType="com.example.testpowmanage.common.vo.WarningVO">
+        select
+            w.warning_id,
+            w.equip_id,
+            ecet.equip_name,
+            ecet.model_id,
+            w.warning_title,
+            w.warning_content,
+            w.warning_time,
+            w.is_solved
+            from public.warning as w
+        left join public.equip_cast_equip_type as ecet on w.equip_id = ecet.equip_id
+    </select>
+
+</mapper>
